@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - name: Install
+        run: npm ci --ignore-scripts
+      - name: Test
+        run: npm test
+      - name: Verify package contents
+        run: |
+          npm pack --dry-run --json > /tmp/pack.json
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync('/tmp/pack.json', 'utf8'));
+          const entry = Array.isArray(data) ? data[0] : data;
+          const got = entry.files.map((file) => file.path).sort();
+          const want = [
+            'CHANGELOG.md',
+            'LICENSE',
+            'README.md',
+            'cordis.patch.yml',
+            'lib/client.js',
+            'lib/index.js',
+            'package.json',
+          ].sort();
+          if (JSON.stringify(got) !== JSON.stringify(want)) {
+            console.error('unexpected package contents:', got);
+            process.exit(1);
+          }
+          NODE
+      - name: Verify packed file modes
+        run: |
+          npm pack --pack-destination /tmp >/dev/null
+          bad="$(tar tvf /tmp/dsh-ui-visibility-*.tgz | awk '$1 != "-rw-r--r--" { print }')"
+          if [ -n "$bad" ]; then
+            echo "non-0644 entries:"
+            echo "$bad"
+            exit 1
+          fi

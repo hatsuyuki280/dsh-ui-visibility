@@ -1,0 +1,73 @@
+name: Bug report
+description: Report a reproducible problem with dsh-ui-visibility.
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Do **not** paste tokens, session cookies, private workspace names, or unredacted screenshots. Security issues belong in the security advisory link, not here.
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH version
+      placeholder: "0.2.1-rc.2"
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: dsh-ui-visibility version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Web (browser)
+        - Desktop shell
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser / OS
+      placeholder: "Chrome 153 / macOS 15"
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Settings → 插件显示与隐藏
+        2. Add a rule with ...
+        3. Resize to ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant rules (redacted)
+      description: Paste only the affected rule JSON/selectors, with private data removed.
+      render: json
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I removed tokens, cookies, private workspace/session names, and account data.
+          required: true

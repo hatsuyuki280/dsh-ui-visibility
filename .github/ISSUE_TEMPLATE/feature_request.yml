@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest a behavior or UX improvement.
+title: "[feat] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what is in the way?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Per-viewport visibility rules
+        - Settings page / UX
+        - Default selectors / compatibility
+        - Packaging / release
+        - Other
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety
+      options:
+        - label: This proposal does not require hiding DSH root, approval dialogs, the settings page, or the sidebar.
+          required: true

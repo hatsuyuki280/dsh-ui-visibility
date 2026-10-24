@@ -1,0 +1,5 @@
+# Bundle patch: mount the plugin row. The row id is the settings namespace the
+# client half reads through ctx.configForms.get('ui-visibility').
+- insert:
+    - id: ui-visibility
+      name: 'dsh-ui-visibility'

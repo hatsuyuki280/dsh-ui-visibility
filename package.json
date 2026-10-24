@@ -1,0 +1,69 @@
+{
+  "name": "dsh-ui-visibility",
+  "version": "0.1.0",
+  "description": "Unofficial community plugin: per-viewport (desktop/mobile) visibility rules for DeepSeek Harness Web UI elements, with a settings page.",
+  "license": "MIT",
+  "author": {
+    "name": "hatsuyuki280",
+    "url": "https://github.com/hatsuyuki280"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hatsuyuki280/dsh-ui-visibility.git"
+  },
+  "homepage": "https://github.com/hatsuyuki280/dsh-ui-visibility#readme",
+  "bugs": {
+    "url": "https://github.com/hatsuyuki280/dsh-ui-visibility/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22.19",
+    "dsh": ">=0.2.1-rc.2 <0.3.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": ">=3.18.3 <4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5"
+  },
+  "scripts": {
+    "test": "node --test test/host.test.mjs test/client.test.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "mobile",
+    "desktop",
+    "web-ui",
+    "visibility",
+    "mobile-layout",
+    "css"
+  ]
+}
