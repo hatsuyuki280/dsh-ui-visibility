@@ -42,9 +42,7 @@ jobs:
             process.exit(1);
           }
           NODE
-      - name: Publish with provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish with provenance (OIDC)
         run: npm publish --provenance --access public
       - name: Verify published version
         run: |
