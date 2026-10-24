@@ -24,4 +24,4 @@ CI runs Node 22 and 24, checks the 7-file package set, and asserts packed file m
 
 ## Release
 
-Maintainers tag `vX.Y.Z`; `.github/workflows/publish.yml` publishes with provenance using the `NPM_TOKEN` secret (or npm trusted publishing). See [CONTRIBUTING.md](https://github.com/hatsuyuki280/dsh-ui-visibility/blob/main/CONTRIBUTING.md).
+Maintainers tag `vX.Y.Z`; `.github/workflows/publish.yml` publishes with provenance through **OIDC trusted publishing** (workflow `publish.yml`, environment `npm-publish`, no long-lived token). See [CONTRIBUTING.md](https://github.com/hatsuyuki280/dsh-ui-visibility/blob/main/CONTRIBUTING.md).

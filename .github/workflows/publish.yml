@@ -50,13 +50,25 @@ jobs:
           const pkg = require('./package.json');
           (async () => {
             const url = `https://registry.npmjs.org/${pkg.name}/${pkg.version}`;
-            const response = await fetch(url);
-            if (!response.ok) {
-              console.error(`npm version ${pkg.name}@${pkg.version} is not live (HTTP ${response.status}).`);
-              console.error('If this publish was staged, approve the staged version before creating a release.');
-              process.exit(1);
+            const deadline = Date.now() + 6 * 60 * 1000;
+            while (true) {
+              try {
+                const response = await fetch(url, { cache: 'no-store' });
+                if (response.ok) {
+                  console.log(`${pkg.name}@${pkg.version} is live on npm.`);
+                  return;
+                }
+                console.log(`${pkg.name}@${pkg.version} not visible yet (HTTP ${response.status}); retrying...`);
+              } catch (error) {
+                console.log(`registry check failed (${error.message}); retrying...`);
+              }
+              if (Date.now() >= deadline) {
+                console.error(`npm version ${pkg.name}@${pkg.version} did not become live within 6 minutes.`);
+                console.error('If this publish was staged, approve the staged version before creating a release.');
+                process.exit(1);
+              }
+              await new Promise((resolve) => setTimeout(resolve, 10000));
             }
-            console.log(`${pkg.name}@${pkg.version} is live on npm.`);
           })().catch((error) => {
             console.error(error);
             process.exit(1);
