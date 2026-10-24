@@ -1,6 +1,6 @@
 {
   "name": "dsh-ui-visibility",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unofficial community plugin: per-viewport (desktop/mobile) visibility rules for DeepSeek Harness Web UI elements, with a settings page.",
   "license": "MIT",
   "author": {

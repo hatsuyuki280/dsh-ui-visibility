@@ -49,7 +49,7 @@ docs: document ?uivis=off recovery
 2. Bump `package.json` version and `CHANGELOG.md`.
 3. Commit `release: vX.Y.Z`.
 4. Tag `vX.Y.Z` and push the tag.
-5. `.github/workflows/publish.yml` publishes to npm with provenance, using the `NPM_TOKEN` environment secret or npm trusted publishing.
+5. `.github/workflows/publish.yml` publishes to npm with provenance through **OIDC trusted publishing** (no long-lived token). Configure the trusted publisher for `publish.yml` / environment `npm-publish`.
 6. Verify `npm view dsh-ui-visibility@X.Y.Z version repository engines` and the provenance link.
 
 Do not publish from a dirty local tree.

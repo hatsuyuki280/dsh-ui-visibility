@@ -99,7 +99,7 @@ CI 在 Node 22/24 上运行，并校验 tarball 的 7 个文件与 `0644` 权限
 
 ## 发布
 
-维护者打 `vX.Y.Z` tag 后，`.github/workflows/publish.yml` 使用 `NPM_TOKEN`（或 npm trusted publishing）带 provenance 发布，并创建 GitHub Release。发布前确保 `package.json` 版本与 tag 一致。
+维护者打 `vX.Y.Z` tag 后，`.github/workflows/publish.yml` 通过 **npm OIDC trusted publishing** 带 provenance 发布，并创建 GitHub Release；不需要长期 `NPM_TOKEN`。发布前确保 `package.json` 版本与 tag 一致，且 trusted publisher 的 workflow 文件名为 `publish.yml`、environment 为 `npm-publish`。
 
 ## 安全
 

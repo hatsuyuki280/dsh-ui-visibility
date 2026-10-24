@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1
+
+- No runtime behavior changes.
+- Release pipeline migrated to npm **OIDC trusted publishing**; no long-lived `NPM_TOKEN` in the publish workflow.
+- GitHub Actions pinned to `actions/checkout` v7.0.1 and `actions/setup-node` v7.1.0; CI runs on `ubuntu-26.04`.
+- Publish workflow now verifies the npm version is live before packing the release asset, creates `dist/` explicitly, and avoids creating a GitHub Release for a staged-only publish.
+- README/CONTRIBUTING release docs update for trusted publishing.
+
 ## 0.1.0
 
 - Initial release: per-rule desktop/mobile visibility for DSH Web UI elements.
