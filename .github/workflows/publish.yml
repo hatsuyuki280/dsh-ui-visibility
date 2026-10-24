@@ -46,8 +46,28 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public
+      - name: Verify published version
+        run: |
+          node - <<'NODE'
+          const pkg = require('./package.json');
+          (async () => {
+            const url = `https://registry.npmjs.org/${pkg.name}/${pkg.version}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+              console.error(`npm version ${pkg.name}@${pkg.version} is not live (HTTP ${response.status}).`);
+              console.error('If this publish was staged, approve the staged version before creating a release.');
+              process.exit(1);
+            }
+            console.log(`${pkg.name}@${pkg.version} is live on npm.`);
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
       - name: Pack release asset
-        run: npm pack --pack-destination dist
+        run: |
+          mkdir -p dist
+          npm pack --pack-destination dist
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/v')
         env:
